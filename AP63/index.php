@@ -12,7 +12,7 @@
         require_once "class/$class_name.php";
     });
     
-    echo "<br>Libro 1: ";
+    /*echo "<br>Libro 1: ";
     $libro1 = new Libro("Stephen king","IT",1986 , 1502);
     echo "<br>". $libro1->getAutor();
     echo "<br>". $libro1->getTitulo();
@@ -26,6 +26,24 @@
     echo "<br>". $revista1->getAnyo();
     echo "<br>". $revista1->getPaginas();
     echo "<br>". $revista1->getTematica();
+
+    */
+
+    echo "--- Sistema de gestión de Libros ---<br><br>";
+    $manager = new LibroManager();
+
+    $manager->crearLibro("Stephen king","IT",1986 , 1502);
+    $manager->crearLibro("Enrique Coperías ","Muy interesante", 1981, 200, "Ciencias");
+    $manager->crearLibro("Stephen king","La larga marcha",1979 , 353);
+    $manager->listarLibros();
+    $manager->listarRevistas();
+    $manager->updateLibro(1,"Stephen king","IT extended edition",1990 , 1700);
+    $manager->listarLibros();
+    $manager->borrarLibro(2);
+    $manager->listarLibros();
+    $manager->borrarRevista(1);
+    $manager->listarRevistas();
+
     ?>
 </body>
 </html>
