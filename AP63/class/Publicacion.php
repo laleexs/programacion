@@ -1,38 +1,40 @@
 <?php
     class Publicacion{
-        protected $titulo;
-        protected $autor;
-        protected $anyo;
+        protected string $title;
+        protected string $author;
+        protected int $year;
 
-        public function __construct($autor, $titulo, $anyo){
-            $this->titulo = $titulo;
-            $this->autor = $autor;
-            $this->anyo = $anyo;
+        public function __construct($author, $title, $year){
+            $this->title = $title;
+            $this->author = $author;
+            $this->year = $year;
         }
 
         //setters
         public function setTitulo($titulo){
-            $this->titulo = $titulo;
+            $this->title = $titulo;
         }
 
-        public function setAutor($autor){
-            $this->autor = $autor;
+        public function setAutor($author){
+            $this->author = $author;
         }
 
-        public function setAnyo($anyo){
-            $this->anyo = $anyo;
+        public function setAnyo($year){
+            $this->year = $year;
         }
 
         //getters
         public function getTitulo(){
-            return $this->titulo;
+            return $this->title;
         }
 
         public function getAutor(){
-            return $this->autor;
+            return $this->author;
         }
 
         public function getAnyo(){
-            return $this->anyo;
+            return $this->year;
         }
+
+    
     }

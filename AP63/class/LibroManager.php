@@ -5,9 +5,60 @@ require_once("Publicacion.php");
 //Clase que administra el CRUD de Libros
 
 class LibroManager {
-    private array $libros = [];
+    private array $books = [];
     private array $publicaciones = [];
+    private string $filePath = 'datos.json';
     
+    //CONSTRUCTOR
+    public function __construct(){
+        $this->loadBooks();
+    }
+
+    private function loadBooks(): void {
+        if(file_exists($this->filePath)){
+            $data = json_decode(file_get_contents($this->filePath), true);
+        }
+
+        if($data != null && is_array($data)){ // si $data no esta vacio y $data es un array
+            foreach($data as $array){
+                $this->books [] = Libro::fromArray($array);
+            }
+        }
+    }
+
+    public function addBook(string $author, string $title, int $year, int $paginas):void{
+        $book = new Libro($author, $title, $year, $paginas);
+        $this->books[] = $book;
+        $this->saveBooks();
+    }
+
+
+    public function readBooks():array{
+        return $this->books;
+    }
+
+    public function deleteBook(int $index):void {
+        if (isset($this->books[$index])){
+            unset($this->books[$index]);
+            $this->books = array_values($this->books);
+            $this->saveBooks();
+        }
+    }
+
+    private function saveBooks():void {
+        $jsonBiblio = [];
+        foreach ($this->books as $object){
+            $arrayBook = $object->toArray();
+            $jsonBiblio = $arrayBook; 
+        }
+        $jsonBiblio = json_encode($jsonBiblio, JSON_PRETTY_PRINT);
+        file_put_contents($this->filePath, $jsonBiblio);
+    }
+    
+}
+
+    /*
+    ---------------------SIN JSON ----------------------------------------------------------------------------
     //CREATE: agregar un Libro o revista
     public function crearLibro($autor, $titulo, $anyo , $paginas, $tematica = NULL){
         if ($tematica === NULL){
@@ -103,6 +154,4 @@ class LibroManager {
         echo "Revista " . $revistaBorrada ." eliminada correctamente.<br>";
 
     }
-
-
-}
+*/

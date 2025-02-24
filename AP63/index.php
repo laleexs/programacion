@@ -12,7 +12,28 @@
         require_once "class/$class_name.php";
     });
     
-    /*echo "<br>Libro 1: ";
+    $biblioteca = new LibroManager();
+
+    var_dump($biblioteca);
+
+
+    //hacemos varios libros 
+    $biblioteca->addBook("Stephen king","IT",1986 , 1502);
+    $biblioteca->addBook("Stephen king","La larga marcha",1979 , 353);
+    
+    var_dump($biblioteca);
+
+    //ELIMINAR
+    echo "Eliminamos por indice";
+    $biblioteca->deleteBook(1);
+
+    var_dump($biblioteca);
+
+
+
+    /*
+    --------CREACION DE LIBROS SOLO CON LAS CLASES ----------------------------------------------
+    echo "<br>Libro 1: ";
     $libro1 = new Libro("Stephen king","IT",1986 , 1502);
     echo "<br>". $libro1->getAutor();
     echo "<br>". $libro1->getTitulo();
@@ -27,8 +48,7 @@
     echo "<br>". $revista1->getPaginas();
     echo "<br>". $revista1->getTematica();
 
-    */
-
+    -------------------------------GESTOR DE LIBROS SIN JSON-----------------------------------PUEDE QUE NO FUNCIONE DESPUES DE MODIFICAR ALGO DE ESPAÑOL AL INGLES POR EJEMPLO DE TITULO A TITLE---------------
     echo "--- Sistema de gestión de Libros ---<br><br>";
     $manager = new LibroManager();
 
@@ -43,6 +63,7 @@
     $manager->listarLibros();
     $manager->borrarRevista(1);
     $manager->listarRevistas();
+    */
 
     ?>
 </body>

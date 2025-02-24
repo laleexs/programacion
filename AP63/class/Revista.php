@@ -4,8 +4,8 @@ require_once("Libro.php");
 class Revista extends Libro{
     protected $tematica;
 
-    public function __construct($autor, $titulo, $anyo, $paginas, $tematica) {
-        parent::__construct($autor, $titulo, $anyo, $paginas);
+    public function __construct($author, $titulo, $year, $paginas, $tematica) {
+        parent::__construct($author, $titulo, $year, $paginas);
         $this->tematica = $tematica;
     }
 
