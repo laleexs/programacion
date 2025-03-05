@@ -11,8 +11,8 @@
         }
 
         //setters
-        public function setTitulo($titulo){
-            $this->title = $titulo;
+        public function setTitulo($title){
+            $this->title = $title;
         }
 
         public function setAutor($author){
@@ -36,5 +36,7 @@
             return $this->year;
         }
 
-    
+        public function print(){
+            echo "Título: $this->title; Autor: $this->author; Año: $this->year;<br> ";
+        }
     }

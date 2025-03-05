@@ -1,6 +1,8 @@
-{
-    "author": "Stephen king",
-    "title": "La larga marcha",
-    "year": 1979,
-    "paginas": 353
-}
+[
+    {
+        "title": "REVISTA 4",
+        "author": "AUTORA 4",
+        "year": 1937,
+        "type": "cine"
+    }
+]

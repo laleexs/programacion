@@ -1,18 +1,18 @@
 <?php
 require_once("Publicacion.php");
 class Libro extends Publicacion{
-    protected $paginas;
+    private int $pages;
 
-    function __construct($author, $title, $year, $paginas){
+    function __construct($author, $title, $year,int  $pages){
         parent::__construct($author, $title, $year);
-        $this->paginas =  $paginas;
+        $this->pages =  $pages;
     }
 
-    public function setPaginas($paginas){
-        $this->paginas = $paginas;
+    public function setPages($pages){
+        $this->pages = $pages;
     }
 
-    public function getPaginas(){
+    public function getPages(): int{
         return $this->paginas;
     }
 
@@ -21,11 +21,16 @@ class Libro extends Publicacion{
             'author' => $this->author,
             'title' => $this->title,
             'year' => $this ->year,
-            'paginas' => $this->paginas
+            'pages' => $this->pages
         ];
     }
 
     public static function fromArray(array $data): Libro {
-        return new Libro($data['author'], $data['title'], $data['year'], $data['paginas']);
+        return new Libro($data['author'], $data['title'], $data['year'], $data['pages']);
+    }
+
+    public function print(){
+        parent::print();
+        echo "Páginas: $this->pages<br>";
     }
 }
