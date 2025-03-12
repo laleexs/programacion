@@ -1,0 +1,33 @@
+body{
+    display: flex;
+    flex-direction: column;
+    background: #cecece;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.mt-01 {
+    
+    background-color: #b8b0b0; /* Fondo del contenedor */
+    border: 1px solid #ddd; /* Borde del contenedor */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 20px; /* Bordes redondeados */
+    display: inline-block; /* Ajusta el tamaño al contenido */
+}
+
+
+.mb-1.mb-2.mb-3.mb-4.mb-5{
+    display: inline-block; /* Mantiene cada valor como un bloque en línea */
+    border-radius: 3px;
+    align-items: center; /* Centra verticalmente (no obligatorio aquí) */
+    border: 1px solid black; /* Borde negro para cada valor */
+    width: 50px; /* Tamaño fijo para cada valor */
+    height: 25px; /* Tamaño fijo para cada valor */
+    text-align: center; /* Asegura que el contenido esté centrado */
+    margin: 1px; /* Espaciado entre los valores */
+    line-height: 20px; /* Alinea el contenido verticalmente */
+    font-size: 14px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    
+}
+
