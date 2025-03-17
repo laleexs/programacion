@@ -1,19 +1,42 @@
+<?php
+session_start();
+    // Cargar automáticamente todas las clases en la carpeta 'class'
+    spl_autoload_register(function ($class_name) {
+    require_once "class/$class_name.php";
+    });
+    $manager = new LibroManager();
+    
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $title =  $_POST['title'] ?? "";
+            $author =  $_POST['author'] ?? "";
+            $year =  $_POST['year'] ?? 0;
+            $var = $_POST['var'];
 
+            if(!empty($title)&& !empty($author) && !empty($var)){
+                $manager->addPublication($title, $author, $year, $var);            
+                echo "<p>Publicación '$title' agregado correctamente.</p>";
+            }else{
+                echo "<p>Por favor, completa todos los campos correctamente</p>";
+            }
+        }  
+?>   
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
-<?php
-// Asegurar que $manager está definido
-    global $manager;
-?>
+
 <h1>Gestor de Biblioteca </h1>
+
+    <a href="indexLibros.php"><button>Lista de libros.</button></a>
+    <a href="indexRevistas.php"><button>Lista de revistas.</button></a>
     <form method="POST" action="" class ="mt-01">
         <h2>Añadir Publicación (Libro o Revista)</h2>
-        <input type="hidden" name="action" value="add">
         <div class= "mb-1">
             <label for="title">Titulo: </label>
             <input type = "text" id="title" name= "title" required><br><br>
@@ -35,46 +58,9 @@
         </div>
 
         <div class="mb-5">
-            <button type="submit" name="add" value = "register">Añadir Publicación</button>
+            <button type="submit">Añadir Publicación</button>
         </div>
     </form>
-    
-            <h2>Listado de Libros</h2>
-            <?php if (count($manager->getBooks()) == 0): ?>
-                <p>No hay libros registrados</p>
-            <?else: ?>
-                <ul>
-                    <?php foreach ($manager->getBooks() as $index => $book): // bucle del array de libros para mostrarlos como indice y libro?>
-                        <li>
-                            <?php echo "Título: " . $book->getTitle() .", Autor: " . $book->getAuthor() . ", Año: " . $book->getYear() . ", Páginas: " . $book->getPages() ?>
-                            <form method="POST" class= "delete-form">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="index" value= "<?php echo $index; ?>">
-                                <input type="hidden" name="var" value="<?php echo $book->getPages(); ?>">
-                                <button type="submit">Eliminar</button>
-                            </form>
-                        </li>
-                    <?php endforeach; // para finalizar el bucle mezclando html ?>
-                </ul>
-            <? endif; // finaliza el if mezclando html i php ?>
-            <h2>Listado de Revistas</h2>
-            <?php if (count($manager->getMagazines()) == 0): ?>
-                <p>No hay revistas registrados</p>
-            <?else: ?>
-                <ul>
-                    <?php foreach ($manager->getMagazines() as $index => $magazine): // bucle del array de libros para mostrarlos como indice y libro?>
-                        <li>
-                        <?php echo "Título: " . $magazine->getTitle() .", Autor: " . $magazine->getAuthor() . ", Año: " . $magazine->getYear() . ", Tipo: " . $magazine->getType() ?>
-                            <form method="POST" class= "delete-form">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="index" value= "<?php echo $index; ?>">
-                                <input type="hidden" name="var" value="<?php echo $magazine->getType(); ?>">
-                                <button type="submit">Eliminar</button>
-                            </form>
-                        </li>
-                    <?php endforeach; // para finalizar el bucle mezclando html ?>
-                </ul>
-            <?php endif; // finaliza el if mezclando html i php ?>
-    
+
 </body>
 </html>

@@ -6,8 +6,7 @@ require_once("Revista.php");
         class LibroManager {
             private array $books = [];
             private array $magazines = [];
-            private string $filePathBooks = 'data/datosBooks.json';
-            private string $filePathMagazines = 'data/datosMagazines.json';
+            private string $filePath = 'data/datos.json';
             
             //CONSTRUCTOR
             public function __construct(){
@@ -16,33 +15,26 @@ require_once("Revista.php");
 
             //Métodos para manejar publicaciones (libros y revistas)
             private function loadPublications(): void {
-                if (file_exists($this->filePathBooks)) {
-                    $dataBook = json_decode(file_get_contents($this->filePathBooks), true);
+                $this->books = [];
+                $this->magazines = [];
+                $data =[];
+                if (file_exists($this->filePath)) {
+                    $data = json_decode(file_get_contents($this->filePath), true);
                 }
-                if ($dataBook != null && is_array($dataBook)){
-                    foreach ($dataBook as $array){
-                        //libro 
+                if ($data != null && is_array($data)){
+                    foreach ($data as $array){
+                        //libro o revista
                         if (array_key_exists('pages', $array)){ // si existe la llave pages crea un libro 
-                            $this->books [] = Libro::fromArray($array);
+                            $this->books[] = Libro::fromArray($array);
                         }
-                    }
-                }
-                //cargar revistas
-                if (file_exists($this->filePathMagazines)) {
-                    $dataMagazine = json_decode(file_get_contents($this->filePathMagazines), true);
-                }
-                if ($dataMagazine != null && is_array($dataMagazine)){
-                    foreach ($dataMagazine as $array){
-                        //revista
                         if (array_key_exists('type', $array)){ // si existe la llave type crea una revista
-                            $this->magazines [] = Revista::fromArray($array);
-                        }
-                        
+                            $this->magazines[] = Revista::fromArray($array);
+                        }          
                     }
                 }
             }
-
             public function addPublication(string $title, string $author, int $year, $var): void {
+                $this->loadPublications();
                 if (is_numeric($var)){
                     $book = new Libro($title, $author, $year, $var);
                     $this->books[] = $book;
@@ -75,7 +67,7 @@ require_once("Revista.php");
                     $jsonBiblio[] = $arrayBook;
                 }
                 $jsonBiblio = json_encode($jsonBiblio, JSON_PRETTY_PRINT);
-                file_put_contents($this->filePathBooks, $jsonBiblio);
+                file_put_contents($this->filePath, $jsonBiblio);
             }
 
             public function readMagazines(): array {
@@ -99,7 +91,7 @@ require_once("Revista.php");
                     $jsonBiblio[] = $arrayMagazine;
                 }
                 $jsonBiblio = json_encode($jsonBiblio, JSON_PRETTY_PRINT);
-                file_put_contents($this->filePathMagazines, $jsonBiblio);
+                file_put_contents($this->filePath, $jsonBiblio);
             }
 
             public function getBooks(): array
@@ -112,5 +104,3 @@ require_once("Revista.php");
                 return $this->magazines;
             }
         }
-//  }
-//}
