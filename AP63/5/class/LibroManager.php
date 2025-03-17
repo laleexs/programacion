@@ -38,12 +38,11 @@ require_once("Revista.php");
                 if (is_numeric($var)){
                     $book = new Libro($title, $author, $year, $var);
                     $this->books[] = $book;
-                    $this->saveBooks();
                 } else {
                     $magazine = new Revista($title, $author, $year, $var);
-                    $this->magazines[] = $magazine;
-                    $this->saveMagazines();
+                    $this->magazines[] = $magazine;      
                 }
+                $this->savePublications();
                 
             }
             
@@ -56,19 +55,28 @@ require_once("Revista.php");
                 if (isset($this->books[$index])) {
                     unset($this->books[$index]);
                     $this->books = array_values($this->books);
-                    $this->saveBooks();
+                    $this->savePublications();
                 }
             }
 
-            private function saveBooks(): void {
+            private function savePublications(): void {
                 $jsonBiblio = [];
-                foreach ($this->books as $object){
-                    $arrayBook = $object->toArray();
-                    $jsonBiblio[] = $arrayBook;
+                if(count($this->books)>0){
+                    foreach ($this->books as $object){
+                        $arrayBook = $object->toArray();
+                        $jsonBiblio[] = $arrayBook;
+                    }
                 }
-                $jsonBiblio = json_encode($jsonBiblio, JSON_PRETTY_PRINT);
-                file_put_contents($this->filePath, $jsonBiblio);
+                if(count($this->magazines)>0){
+                    foreach ($this->magazines as $object){
+                        $arrayMagazine = $object->toArray();
+                        $jsonBiblio[] = $arrayMagazine;
+                    }
+                } 
+                $jsonString = json_encode($jsonBiblio, JSON_PRETTY_PRINT);
+                file_put_contents($this->filePath, $jsonString);
             }
+
 
             public function readMagazines(): array {
                 return $this->magazines;
@@ -78,22 +86,13 @@ require_once("Revista.php");
                 if (isset($this->magazines[$index])) {
                     unset($this->magazines[$index]);
                     $this->magazines = array_values($this->magazines);
-                    $this->saveMagazines();
+                    $this->savePublications();
                 }
             }
 
             
 
-            private function saveMagazines(): void {
-                $jsonBiblio = [];
-                foreach ($this->magazines as $object){
-                    $arrayMagazine = $object->toArray();
-                    $jsonBiblio[] = $arrayMagazine;
-                }
-                $jsonBiblio = json_encode($jsonBiblio, JSON_PRETTY_PRINT);
-                file_put_contents($this->filePath, $jsonBiblio);
-            }
-
+           
             public function getBooks(): array
             {
                 return $this->books;
