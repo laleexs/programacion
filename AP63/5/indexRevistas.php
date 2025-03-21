@@ -12,6 +12,17 @@ require_once("class/libroManager.php");
 <body>
 <?php
 $manager = new LibroManager();
+
+$totalBooks=count($manager->getMagazines());
+    $booksPerPage = 3; 
+    $totalPages = ceil(count($manager->getMagazines()) / $booksPerPage); // ceil, es una función matemática que redondea un número decimal hacia arriba al entero más cercano
+
+    //obtener el numero de página actual
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // (int) Convierte el valor de page en un número entero para evitar posibles problemas
+
+    //calcular el índice inicial y pfinal para la paginación
+    $startIndex = ($page - 1) * $booksPerPage;
+    $booksToShow = array_slice($manager->getBooks(), $startIndex, $booksPerPage);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if($_POST['action']=='delete1'){
         $index = ($_POST['index'] ?? -1);
@@ -37,8 +48,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </li>
                 <?php endforeach; // para finalizar el bucle mezclando html ?>
             </ul>
-        <?php endif; // finaliza el if mezclando html i php ?>
-        
+            <!--Paginación-->  
+            <div>
+                        <?php if ($page > 1): ?>
+                            <a href="?page=1"> << </a>
+                            <a href="?page=<?php echo $page -1; ?>"> < </a>
+                            <?php endif; ?>
+                            <span>Página <?php echo $page; ?> de <?php echo $totalPages; ?></span>
+                            <?php if ($page < $totalPages): ?>
+                                <a href="?page=<?php echo $page + 1; ?>"> > </a>
+                                <a href="?page=<?php echo $totalPages; ?>"> >> </a>
+                            <?php endif; ?>
+                    </div>
+                <? endif; // finaliza el if mezclando html i php ?>
+            
 
 </body>
 </html>
